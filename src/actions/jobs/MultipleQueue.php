@@ -4,7 +4,7 @@ namespace flipbox\queue\actions;
 
 use flipbox\queue\actions\jobs\AbstractJob;
 use flipbox\queue\queues\MultipleQueueInterface;
-use Yii;
+use Craft;
 use yii\di\Instance;
 use yii\web\ServerErrorHttpException;
 
@@ -30,7 +30,7 @@ class MultipleQueue extends AbstractJob
     {
         $job = $this->createJobFromRequest();
 
-        $index = Yii::$app->getRequest()->post('index');
+        $index = Craft::$app->getRequest()->post('index');
         if (!isset($index)) {
             $this->handleRequiredIndexException();
         }

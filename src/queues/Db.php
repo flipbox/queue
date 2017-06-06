@@ -39,7 +39,7 @@ class Db extends AbstractQueue
     /**
      * The database used for the queue.
      *
-     * This will use default `db` component from Yii application.
+     * This will use default `db` component from Craft application.
      * @var string|\yii\db\Connection
      */
     public $db = 'db';

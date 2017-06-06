@@ -2,7 +2,7 @@
 
 namespace flipbox\queue\models;
 
-use Flipbox\Yii2\Queue\Queues\MultipleQueue;
+use flipbox\queue\queues\MultipleByEvent;
 use yii\base\Model;
 
 class Settings extends Model
@@ -11,7 +11,6 @@ class Settings extends Model
      * @var array
      */
     public $component = [
-        'class' => MultipleQueue::class,
-        'module' => 'queue'
+        'class' => MultipleByEvent::class
     ];
 }

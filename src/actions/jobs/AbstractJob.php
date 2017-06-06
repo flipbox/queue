@@ -4,7 +4,7 @@ namespace flipbox\queue\actions\jobs;
 
 use flipbox\queue\jobs\JobInterface;
 use flipbox\queue\queues\QueueInterface;
-use Yii;
+use Craft;
 use yii\base\Action;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
@@ -33,7 +33,7 @@ abstract class AbstractJob extends Action
     public function init()
     {
         parent::init();
-        $response = Yii::$app->getResponse();
+        $response = Craft::$app->getResponse();
         $response->format = $response::FORMAT_JSON;
         $this->queue = Instance::ensure($this->queue, QueueInterface::class);
     }
@@ -68,12 +68,12 @@ abstract class AbstractJob extends Action
      */
     protected function createJobFromRequest()
     {
-        $request = Yii::$app->getRequest();
+        $request = Craft::$app->getRequest();
 
         $jobArray = $request->getBodyParam('properties', []);
         $jobArray['class'] = $request->getBodyParam('class');
 
-        $job = Yii::createObject($jobArray);
+        $job = Craft::createObject($jobArray);
         if (!$job instanceof JobInterface) {
             throw new ServerErrorHttpException('Invalid job');
         }

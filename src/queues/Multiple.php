@@ -12,7 +12,7 @@ namespace flipbox\queue\queues;
 use flipbox\queue\jobs\JobInterface;
 use flipbox\queue\strategies\Random;
 use flipbox\queue\strategies\StrategyInterface;
-use Yii;
+use Craft;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -40,11 +40,11 @@ class Multiple extends AbstractQueue implements MultipleQueueInterface
 
         // Add queues
         foreach ($this->queues as $id => $queue) {
-            $this->queues[$id] = Yii::createObject($queue);
+            $this->queues[$id] = Craft::createObject($queue);
         }
 
         if (!$this->strategy instanceof StrategyInterface) {
-            $this->strategy = Yii::createObject($this->strategy);
+            $this->strategy = Craft::createObject($this->strategy);
         }
         $this->strategy->setQueue($this);
     }

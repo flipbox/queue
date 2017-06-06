@@ -12,7 +12,7 @@ namespace flipbox\queue\queues;
 use flipbox\queue\events\Queue as QueueEvent;
 use flipbox\queue\events\QueueValue as QueueValueEvent;
 use flipbox\queue\jobs\JobInterface;
-use Yii;
+use Craft;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
@@ -161,7 +161,7 @@ abstract class AbstractQueue extends Component implements QueueInterface
         } catch (\Exception $e) {
             $class = get_class($job);
 
-            Yii::error(
+            Craft::error(
                 "Fatal Error: Error running job '{$class}'. Id: {$job->getId()} Message: {$e->getMessage()}",
                 'queue'
             );
@@ -273,7 +273,7 @@ abstract class AbstractQueue extends Component implements QueueInterface
         $jobArray = Json::decode($message);
 
         // Create job
-        $job = Yii::createObject($jobArray);
+        $job = Craft::createObject($jobArray);
         if (!$job instanceof JobInterface) {
             throw new Exception('Invalid job');
         }
