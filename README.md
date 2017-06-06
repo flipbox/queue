@@ -4,7 +4,7 @@
 [![Build Status](https://img.shields.io/travis/flipbox/queue/master.svg?style=flat-square)](https://travis-ci.org/flipbox/queue)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/flipbox/queue.svg?style=flat-square)](https://scrutinizer-ci.com/g/flipbox/queue/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/flipbox/queue.svg?style=flat-square)](https://scrutinizer-ci.com/g/flipbox/queue)
-[![Total Downloads](https://img.shields.io/packagist/dt/flipboxdigital/queue.svg?style=flat-square)](https://packagist.org/packages/flipbox/queue)
+[![Total Downloads](https://img.shields.io/packagist/dt/flipboxdigital/queue.svg?style=flat-square)](https://packagist.org/packages/flipboxdigital/queue)
 
 This package provides a robust queue system for [Craft CMS](https://craftcms.com).
 
