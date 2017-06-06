@@ -2,14 +2,14 @@
 
 namespace flipbox\queue\actions;
 
-use Craft;
 use flipbox\queue\actions\jobs\AbstractJob;
-use UrbanIndo\Yii2\Queue\Queues\MultipleQueue as MultipleQueueQueue;
+use flipbox\queue\queues\MultipleQueueInterface;
+use Yii;
 use yii\di\Instance;
 use yii\web\ServerErrorHttpException;
 
 /**
- * @property MultipleQueueQueue $queue
+ * @property MultipleQueueInterface $queue
  */
 class MultipleQueue extends AbstractJob
 {
@@ -19,7 +19,7 @@ class MultipleQueue extends AbstractJob
     public function init()
     {
         parent::init();
-        $this->queue = Instance::ensure($this->queue, MultipleQueueQueue::class);
+        $this->queue = Instance::ensure($this->queue, MultipleQueueInterface::class);
     }
 
     /**
@@ -30,13 +30,13 @@ class MultipleQueue extends AbstractJob
     {
         $job = $this->createJobFromRequest();
 
-        $index = Craft::$app->getRequest()->post('index');
+        $index = Yii::$app->getRequest()->post('index');
         if (!isset($index)) {
             $this->handleRequiredIndexException();
         }
 
         if ($this->queue->postToQueue($job, $index)) {
-            return ['status' => 'okay', 'jobId' => $job->id];
+            return $this->transformSuccessResponse($job);
         } else {
             return $this->handleFailedToPostJobException();
         }

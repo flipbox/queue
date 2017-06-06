@@ -4,7 +4,7 @@ namespace flipbox\queue;
 
 use craft\base\Plugin;
 use flipbox\queue\models\Settings as SettingsModel;
-use UrbanIndo\Yii2\Queue\Queue as YiiQueue;
+use flipbox\queue\queues\QueueInterface;
 use yii\di\Instance;
 
 /**
@@ -21,7 +21,7 @@ class Queue extends Plugin
     }
 
     /**
-     * @return YiiQueue
+     * @return QueueInterface
      */
     public function getQueue()
     {
@@ -46,6 +46,6 @@ class Queue extends Plugin
      */
     protected function getFromConfig()
     {
-        return Instance::ensure($this->getSettings()->component, YiiQueue::className());
+        return Instance::ensure($this->getSettings()->component, QueueInterface::class);
     }
 }
