@@ -21,12 +21,11 @@ In the Craft Control Panel, go to Settings → Plugins and click the "Install" b
 By default, multiple queues are supported.  In order to add a new queue, register it via an event in your `Plugin::init()`:
 ```php 
 yii\base\Event::on(
-    Flipbox\Yii2\Queue\Queues\MultipleQueue::class,
-    Flipbox\Yii2\Queue\Queues\MultipleQueue::EVENT_REGISTER_QUEUES,
-    function(Flipbox\Yii2\Queue\Events\RegisterQueues $event) {
+    flipbox\queue\queues\MultipleByEvent::class,
+    flipbox\queue\queues\MultipleByEvent::EVENT_REGISTER_QUEUES,
+    function(flipbox\queue\events\RegisterQueues $event) {
         $event->queues[] = [
-            'class' => UrbanIndo\Yii2\Queue\Queues\SqsQueue::class,
-            'module' => 'YOUR_PLUGIN_ID',
+            'class' => flipbox\queue\queues\Sqs::class,
             'url' => 'https://sqs.us-west-2.amazonaws.com/1234567890/xxxxxx',
             'config' => [
                 'region' => 'us-west-2',
@@ -37,13 +36,10 @@ yii\base\Event::on(
 );
 ```
 
-To post a new job:
+To post a new job (extend `flipbox\queue\jobs\AbstractJob`)
 ```php
-$job = new UrbanIndo\Yii2\Queue\Job([
-    'route' => function() {
-        Craft::info("Hello world.");
-    }
-]);
+
+$job = new Your\Test\Job();
 
 Queue::getInstance()->getQueue()->post($job);
 ```
