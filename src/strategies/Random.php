@@ -13,7 +13,7 @@ namespace flipbox\queue\strategies;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class Random extends Strategy
+class Random extends AbstractStrategy
 {
     /**
      * @return void

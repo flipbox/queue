@@ -17,7 +17,7 @@ use yii\base\Object;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-abstract class Strategy extends Object implements StrategyInterface
+abstract class AbstractStrategy extends Object implements StrategyInterface
 {
     /**
      * @var MultipleQueueInterface
