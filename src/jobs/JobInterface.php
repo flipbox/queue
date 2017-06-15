@@ -43,4 +43,11 @@ interface JobInterface
      * @param $value
      */
     public function setHeader($item, $value);
+
+    /**
+     * Create a Yii config for this job
+     *
+     * @return array
+     */
+    public function toConfig(): array;
 }

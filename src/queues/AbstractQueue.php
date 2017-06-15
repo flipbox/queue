@@ -287,8 +287,6 @@ abstract class AbstractQueue extends Component implements QueueInterface
      */
     protected function serialize(JobInterface $job)
     {
-        $jobArray = ArrayHelper::toArray($job);
-        $jobArray['class'] = get_class($job);
-        return Json::encode($jobArray);
+        return Json::encode($job->toConfig());
     }
 }

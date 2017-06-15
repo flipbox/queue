@@ -128,4 +128,14 @@ abstract class AbstractJob extends Component implements JobInterface
             ])
         );
     }
+
+    /**
+     * @return array
+     */
+    public function toConfig(): array
+    {
+        return [
+            'class' => get_class($this)
+        ];
+    }
 }
