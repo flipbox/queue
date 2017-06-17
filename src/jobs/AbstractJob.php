@@ -11,6 +11,9 @@ namespace flipbox\queue\jobs;
 
 use flipbox\queue\events\AfterJobRun;
 use flipbox\queue\events\BeforeJobRun;
+use flipbox\queue\jobs\traits\JobTrait;
+use flipbox\queue\Queue;
+use flipbox\queue\queues\MultipleQueueInterface;
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
 
@@ -20,6 +23,8 @@ use yii\helpers\ArrayHelper;
  */
 abstract class AbstractJob extends Component implements JobInterface
 {
+
+    use JobTrait;
 
     /**
      * Event executed before a job is being executed.
@@ -32,23 +37,24 @@ abstract class AbstractJob extends Component implements JobInterface
     const EVENT_AFTER_RUN = 'afterRun';
 
     /**
-     * The ID of the message. This should be set on the job receive.
-     * @var integer
-     */
-    protected $id;
-
-    /**
-     * Stores the header.
-     * This can be different for each queue provider.
-     *
-     * @var mixed
-     */
-    protected $header = [];
-
-    /**
      * @return mixed
      */
     abstract protected function runInternal();
+
+    /**
+     * @param null $index
+     * @return bool
+     */
+    public function toQueue($index = null)
+    {
+        $queue = Queue::getInstance()->getQueue();
+
+        if($queue instanceof MultipleQueueInterface) {
+            return $queue->postToQueue($this, $index);
+        }
+
+        return Queue::getInstance()->getQueue()->post($this);
+    }
 
     /**
      * @inheritdoc
@@ -67,40 +73,6 @@ abstract class AbstractJob extends Component implements JobInterface
         $this->afterRun($value);
 
         return $value;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getHeader($item, $default = null)
-    {
-        return ArrayHelper::getValue($this->header, $item, $default);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setHeader($item, $value)
-    {
-        $this->header[$item] = $value;
-        return $this;
     }
 
     /**
