@@ -50,4 +50,10 @@ interface JobInterface
      * @return array
      */
     public function toConfig(): array;
+
+    /**
+     * @param null $index
+     * @return bool
+     */
+    public function toQueue($index = null): bool;
 }

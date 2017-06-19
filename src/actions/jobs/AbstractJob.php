@@ -2,6 +2,7 @@
 
 namespace flipbox\queue\actions\jobs;
 
+use flipbox\queue\helpers\JobHelper;
 use flipbox\queue\jobs\JobInterface;
 use flipbox\queue\queues\QueueInterface;
 use Craft;
@@ -73,12 +74,7 @@ abstract class AbstractJob extends Action
         $jobArray = $request->getBodyParam('properties', []);
         $jobArray['class'] = $request->getBodyParam('class');
 
-        $job = Craft::createObject($jobArray);
-        if (!$job instanceof JobInterface) {
-            throw new ServerErrorHttpException('Invalid job');
-        }
-
-        return $job;
+        return JobHelper::create($jobArray);
     }
 
     /**

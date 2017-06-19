@@ -2,11 +2,10 @@
 
 namespace flipbox\queue\jobs;
 
-use Craft;
+use flipbox\queue\helpers\JobHelper;
 use flipbox\queue\jobs\traits\JobCollectionTrait;
-use yii\base\Component;
 
-abstract class AbstractCollection extends Component implements JobInterface
+abstract class AbstractCollection extends AbstractJob
 {
 
     use JobCollectionTrait;
@@ -14,7 +13,7 @@ abstract class AbstractCollection extends Component implements JobInterface
     /**
      * @return bool
      */
-    public function run()
+    public function runInternal()
     {
         foreach ($this->getJobs() as $job) {
             $this->runJob($job);
@@ -34,7 +33,7 @@ abstract class AbstractCollection extends Component implements JobInterface
         }
 
         if(!$job instanceof JobInterface) {
-            $job = Craft::createObject($job);
+            $job = JobHelper::create($job);
         }
         return $job->run();
     }

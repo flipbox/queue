@@ -11,6 +11,7 @@ namespace flipbox\queue\queues;
 
 use flipbox\queue\events\Queue as QueueEvent;
 use flipbox\queue\events\QueueValue as QueueValueEvent;
+use flipbox\queue\helpers\JobHelper;
 use flipbox\queue\jobs\JobInterface;
 use Craft;
 use yii\base\Component;
@@ -272,13 +273,7 @@ abstract class AbstractQueue extends Component implements QueueInterface
         // Deserialize
         $jobArray = Json::decode($message);
 
-        // Create job
-        $job = Craft::createObject($jobArray);
-        if (!$job instanceof JobInterface) {
-            throw new Exception('Invalid job');
-        }
-
-        return $job;
+        return JobHelper::create($jobArray);
     }
 
     /**

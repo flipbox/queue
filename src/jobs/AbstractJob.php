@@ -45,7 +45,7 @@ abstract class AbstractJob extends Component implements JobInterface
      * @param null $index
      * @return bool
      */
-    public function toQueue($index = null)
+    public function toQueue($index = null): bool
     {
         $queue = Queue::getInstance()->getQueue();
 

@@ -5,12 +5,15 @@ namespace flipbox\queue\jobs\traits;
 use Craft;
 use craft\helpers\ArrayHelper;
 use flipbox\queue\events\RegisterJobs;
+use flipbox\queue\helpers\JobHelper;
 use flipbox\queue\jobs\JobInterface;
 use yii\base\Event;
 use yii\base\Exception;
 
 trait JobCollectionTrait
 {
+
+    use JobTrait;
 
     /**
      * @param string $class
@@ -81,7 +84,7 @@ trait JobCollectionTrait
         }
 
         if(!$job instanceof JobInterface) {
-            $job = Craft::createObject($job);
+            $job = JobHelper::create($job);
         }
 
         $this->jobs[$key] = $job;
@@ -134,7 +137,7 @@ trait JobCollectionTrait
     public function createJob($identifier, array $config = [])
     {
         $config['class'] = $this->getJob($identifier);
-        return Craft::createObject($config);
+        return JobHelper::create($config);
     }
 
     /**
