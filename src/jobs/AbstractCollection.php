@@ -3,22 +3,38 @@
 namespace flipbox\queue\jobs;
 
 use flipbox\queue\helpers\JobHelper;
-use flipbox\queue\jobs\traits\JobCollectionTrait;
+use flipbox\queue\jobs\traits\CollectionTrait;
 
 abstract class AbstractCollection extends AbstractJob
 {
 
-    use JobCollectionTrait;
+    use CollectionTrait;
+
+    /**
+     * @var bool
+     */
+    public $toQueue = true;
 
     /**
      * @return bool
      */
     public function runInternal()
     {
+        $success = true;
+
         foreach ($this->getJobs() as $job) {
-            $this->runJob($job);
+            if ($this->toQueue) {
+                if (!$job->toQueue()) {
+                    $success = false;
+                }
+                continue;
+            }
+            if (!$job->run()) {
+                $success = false;
+            }
         }
-        return true;
+
+        return $success;
     }
 
     /**
@@ -36,5 +52,30 @@ abstract class AbstractCollection extends AbstractJob
             $job = JobHelper::create($job);
         }
         return $job->run();
+    }
+
+    /**
+     * @return array
+     */
+    public function toConfig(): array
+    {
+        return array_merge(
+            parent::toConfig(),
+            [
+                'jobs' => $this->getJobsConfig()
+            ]
+        );
+    }
+
+    /**
+     * @return array
+     */
+    protected function getJobsConfig()
+    {
+        $jobsConfig = [];
+        foreach ($this->getJobs() as $job) {
+            $jobsConfig[] = $job->toConfig();
+        }
+        return $jobsConfig;
     }
 }

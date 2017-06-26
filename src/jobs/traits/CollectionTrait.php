@@ -2,18 +2,20 @@
 
 namespace flipbox\queue\jobs\traits;
 
-use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\queue\events\RegisterJobs;
 use flipbox\queue\helpers\JobHelper;
 use flipbox\queue\jobs\JobInterface;
-use yii\base\Event;
 use yii\base\Exception;
 
-trait JobCollectionTrait
+trait CollectionTrait
 {
 
     use JobTrait;
+
+    /**
+     * @var JobInterface[]
+     */
+    protected $jobs;
 
     /**
      * @param string $class
@@ -27,29 +29,14 @@ trait JobCollectionTrait
     }
 
     /**
-     * @var JobInterface[]
-     */
-    protected $jobs;
-
-    /**
-     * @param $name
-     * @param Event|null $event
-     * @return mixed
-     */
-    public abstract function trigger($name, Event $event = null);
-
-    /**
      * @param array $jobs
      * @return static
      */
     public function setJobs(array $jobs = [])
     {
-
         $this->jobs = null;
 
-        return $this->ensureJobs()
-            ->addJobs($jobs);
-
+        return $this->addJobs($jobs);
     }
 
     /**
@@ -62,32 +49,29 @@ trait JobCollectionTrait
             if (is_numeric($key) || empty($key)) {
                 $key = null;
             }
-
             $this->addJob($key, $job);
         }
 
         return $this;
-
     }
 
     /**
      * @param $key
      * @param $job
-     * @return $this
+     * @return static
      */
     public function addJob($key, $job)
     {
-        $this->ensureJobs();
-
-        if(is_string($job)) {
+        if (is_string($job)) {
             $job = $this->jobConfig($job);
         }
 
-        if(!$job instanceof JobInterface) {
+        if (!$job instanceof JobInterface) {
             $job = JobHelper::create($job);
         }
 
         $this->jobs[$key] = $job;
+
         return $this;
     }
 
@@ -96,7 +80,6 @@ trait JobCollectionTrait
      */
     public function getJobs()
     {
-        $this->ensureJobs();
         return $this->jobs;
     }
 
@@ -106,11 +89,7 @@ trait JobCollectionTrait
      */
     public function findJob($identifier)
     {
-
-        $this->ensureJobs();
-
         return ArrayHelper::getValue($this->jobs, $identifier);
-
     }
 
     /**
@@ -120,13 +99,11 @@ trait JobCollectionTrait
      */
     public function getJob($identifier)
     {
-
         if (!$job = $this->findJob($identifier)) {
             throw new Exception("Job not found.");
         }
 
         return $job;
-
     }
 
     /**
@@ -137,35 +114,7 @@ trait JobCollectionTrait
     public function createJob($identifier, array $config = [])
     {
         $config['class'] = $this->getJob($identifier);
+
         return JobHelper::create($config);
     }
-
-    /**
-     * Ensure the jobs are all loaded
-     *
-     * @return $this
-     */
-    protected function ensureJobs()
-    {
-
-        if (null === $this->jobs) {
-
-            $this->jobs = [];
-
-            // Trigger en event
-            $event = new RegisterJobs();
-
-            $this->trigger(
-                RegisterJobs::EVENT_REGISTER_JOBS,
-                $event
-            );
-
-            $this->addJobs($event->jobs);
-
-        }
-
-        return $this;
-
-    }
-
 }
