@@ -27,4 +27,11 @@ interface OptionsInterface
      */
     public function setDelay(int $delay);
 
+    /**
+     * Create a Yii config for the options
+     *
+     * @return array
+     */
+    public function toConfig(): array;
+
 }

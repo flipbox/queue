@@ -13,13 +13,13 @@ namespace flipbox\queue\options;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class Options implements OptionsInterface
+class Options implements OptionsInterface, \JsonSerializable
 {
 
     private $delay = 0;
 
     /**
-     * @return int
+     * @inheritdoc
      */
     public function getDelay(): int
     {
@@ -27,12 +27,29 @@ class Options implements OptionsInterface
     }
 
     /**
-     * @param int $delay
-     * @return static
+     * @inheritdoc
      */
     public function setDelay(int $delay)
     {
         $this->delay = $delay;
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function toConfig(): array
+    {
+        return [
+            'delay' => $this->getDelay()
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return $this->toConfig();
     }
 }
