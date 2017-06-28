@@ -90,6 +90,20 @@ class Sqs extends AbstractQueue
     }
 
     /**
+     * @param JobInterface $job
+     * @param array $options
+     * @return array
+     */
+    protected function mergePostOptions(JobInterface $job, array $options = [])
+    {
+        if(!isset($options['DelaySeconds']) && ($delay = $job->getOptions()->getDelay())) {
+            $options['DelaySeconds'] = $delay;
+        }
+
+        return $options;
+    }
+
+    /**
      * @inheritdoc
      */
     public function postJob(JobInterface $job): bool

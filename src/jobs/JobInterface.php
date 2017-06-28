@@ -9,6 +9,8 @@
 
 namespace flipbox\queue\jobs;
 
+use flipbox\queue\options\OptionsInterface;
+
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
@@ -25,6 +27,11 @@ interface JobInterface
      * @return static
      */
     public function setId($id);
+
+    /**
+     * @return OptionsInterface
+     */
+    public function getOptions();
 
     /**
      * @return mixed

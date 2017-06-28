@@ -12,6 +12,7 @@ namespace flipbox\queue\jobs;
 use flipbox\queue\events\AfterJobRun;
 use flipbox\queue\events\BeforeJobRun;
 use flipbox\queue\jobs\traits\JobTrait;
+use flipbox\queue\jobs\traits\OptionsTrait;
 use flipbox\queue\Queue;
 use flipbox\queue\queues\MultipleQueueInterface;
 use yii\base\Component;
@@ -24,7 +25,7 @@ use yii\helpers\ArrayHelper;
 abstract class AbstractJob extends Component implements JobInterface
 {
 
-    use JobTrait;
+    use JobTrait, OptionsTrait;
 
     /**
      * Event executed before a job is being executed.
