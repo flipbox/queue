@@ -68,7 +68,7 @@ class Redis extends AbstractQueue
     /**
      * @inheritdoc
      */
-    protected function postJob(JobInterface $job): bool
+    protected function postJob(JobInterface $job, array $options = []): bool
     {
         return $this->db->rpush($this->key, Json::encode([
             'id' => uniqid('queue_', true),

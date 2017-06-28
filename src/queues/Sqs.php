@@ -106,12 +106,22 @@ class Sqs extends AbstractQueue
     /**
      * @inheritdoc
      */
-    public function postJob(JobInterface $job): bool
+    protected function postJob(JobInterface $job, array $options = []): bool
     {
-        $model = $this->client->sendMessage([
+        $baseSettings =[
             'QueueUrl' => $this->url,
             'MessageBody' => $this->serialize($job),
-        ]);
+        ];
+
+        $settings = array_merge(
+            //Merge any options found together
+            $this->mergePostOptions($job,$options),
+            //Base Settings should overwrite any attempt to change the url or message body.
+            //Put this array last in the merge
+            $baseSettings
+        );
+
+        $model = $this->client->sendMessage($settings);
         if ($model !== null) {
             $job->setId($model['MessageId']);
             return true;

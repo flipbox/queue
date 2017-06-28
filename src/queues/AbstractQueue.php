@@ -86,7 +86,7 @@ abstract class AbstractQueue extends Component implements QueueInterface
     /**
      * @inheritdoc
      */
-    public function post(JobInterface $job): bool
+    public function post(JobInterface $job, array $options = []): bool
     {
         $this->trigger(
             self::EVENT_BEFORE_POST,
@@ -115,7 +115,7 @@ abstract class AbstractQueue extends Component implements QueueInterface
      * @param JobInterface $job
      * @return bool
      */
-    abstract protected function postJob(JobInterface $job): bool;
+    abstract protected function postJob(JobInterface $job, array $options=[]): bool;
 
     /**
      * @inheritdoc
