@@ -34,6 +34,23 @@ trait JobTrait
     /**
      * @inheritdoc
      */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getHeader($item, $default = null)
     {
         return ArrayHelper::getValue($this->header, $item, $default);

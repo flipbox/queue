@@ -42,24 +42,6 @@ abstract class AbstractJob extends Component implements JobInterface
      */
     abstract protected function runInternal();
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
     /**
      * @param null $index
      * @return bool
