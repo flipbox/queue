@@ -37,7 +37,7 @@ trait OptionsTrait
     /**
      * @inheritdoc
      */
-    public function setId($options)
+    public function setOptions($options)
     {
         if(!$options instanceof OptionsInterface) {
             $options = new Options($options);
