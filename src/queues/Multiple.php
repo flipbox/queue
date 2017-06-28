@@ -84,7 +84,7 @@ class Multiple extends AbstractQueue implements MultipleQueueInterface
     /**
      * @inheritdoc
      */
-    protected function postJob(JobInterface $job): bool
+    protected function postJob(JobInterface $job, array $options = []): bool
     {
         reset($this->queues);
         return $this->postToQueue($job, key($this->queues));

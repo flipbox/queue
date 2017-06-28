@@ -140,7 +140,7 @@ class Db extends AbstractQueue
     /**
      * @inheritdoc
      */
-    protected function postJob(JobInterface $job): bool
+    protected function postJob(JobInterface $job, array $options = []): bool
     {
         return $this->db->createCommand()->insert(
             $this->tableName,

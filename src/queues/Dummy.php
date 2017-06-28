@@ -20,7 +20,7 @@ class Dummy extends AbstractQueue
     /**
      * @inheritdoc
      */
-    protected function postJob(JobInterface $job): bool
+    protected function postJob(JobInterface $job, array $options = []): bool
     {
         $this->run($job);
         return true;

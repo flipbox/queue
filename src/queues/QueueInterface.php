@@ -25,7 +25,7 @@ interface QueueInterface
      * @param JobInterface $job
      * @return bool
      */
-    public function post(JobInterface $job): bool;
+    public function post(JobInterface $job, array $options =[]): bool;
 
     /**
      * Return next job from the queue. This should trigger event EVENT_BEFORE_FETCH
