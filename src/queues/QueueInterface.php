@@ -40,10 +40,10 @@ interface QueueInterface
      * and event EVENT_AFTER_RUN
      *
      * @param JobInterface $job
-     * @return void
+     * @return bool
      * @throws \yii\base\Exception Exception.
      */
-    public function run(JobInterface $job);
+    public function run(JobInterface $job): bool;
 
     /**
      * Delete the job. This should trigger event EVENT_BEFORE_DELETE and

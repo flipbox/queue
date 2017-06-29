@@ -146,7 +146,7 @@ abstract class AbstractQueue extends Component implements QueueInterface
     /**
      * @inheritdoc
      */
-    public function run(JobInterface $job)
+    public function run(JobInterface $job): bool
     {
         $this->trigger(
             self::EVENT_BEFORE_RUN,
@@ -154,7 +154,7 @@ abstract class AbstractQueue extends Component implements QueueInterface
         );
 
         if (!$beforeEvent->isValid) {
-            return;
+            return false;
         }
 
         try {
@@ -189,12 +189,12 @@ abstract class AbstractQueue extends Component implements QueueInterface
                 $this->release($job);
             }
 
-            return;
+            return false;
         }
 
         $this->delete($job);
 
-        return;
+        return true;
     }
 
     /**
