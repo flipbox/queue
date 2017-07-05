@@ -23,13 +23,7 @@ abstract class AbstractCollection extends AbstractJob
         $success = true;
 
         foreach ($this->getJobs() as $job) {
-            if ($this->toQueue) {
-                if (!$job->toQueue()) {
-                    $success = false;
-                }
-                continue;
-            }
-            if (!$job->run()) {
+            if (!$this->runJob($job)) {
                 $success = false;
             }
         }
@@ -43,14 +37,18 @@ abstract class AbstractCollection extends AbstractJob
      */
     protected function runJob($job)
     {
-
-        if(is_string($job)) {
+        if (is_string($job)) {
             $job = $this->jobConfig($job);
         }
 
-        if(!$job instanceof JobInterface) {
+        if (!$job instanceof JobInterface) {
             $job = JobHelper::create($job);
         }
+
+        if ($this->toQueue) {
+            return $job->toQueue();
+        }
+
         return $job->run();
     }
 

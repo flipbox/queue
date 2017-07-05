@@ -7,7 +7,6 @@ use yii\base\Event;
 
 class RegisterJobs extends Event
 {
-
     /**
      *  The event to register jobs
      */
@@ -17,5 +16,4 @@ class RegisterJobs extends Event
      * @var JobInterface[]
      */
     public $jobs = [];
-
 }

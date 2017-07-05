@@ -16,7 +16,6 @@ use flipbox\queue\jobs\traits\OptionsTrait;
 use flipbox\queue\Queue;
 use flipbox\queue\queues\MultipleQueueInterface;
 use yii\base\Component;
-use yii\helpers\ArrayHelper;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -50,7 +49,7 @@ abstract class AbstractJob extends Component implements JobInterface
     {
         $queue = Queue::getInstance()->getQueue();
 
-        if($queue instanceof MultipleQueueInterface) {
+        if ($queue instanceof MultipleQueueInterface) {
             return $queue->postToQueue($this, $index);
         }
 

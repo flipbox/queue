@@ -28,7 +28,7 @@ trait OptionsTrait
      */
     public function getOptions()
     {
-        if($this->options === null) {
+        if ($this->options === null) {
             $this->options = new Options;
         }
         return $this->options;
@@ -39,7 +39,7 @@ trait OptionsTrait
      */
     public function setOptions($options)
     {
-        if(!$options instanceof OptionsInterface) {
+        if (!$options instanceof OptionsInterface) {
             $options = new Options($options);
         }
         $this->options = $options;

@@ -96,7 +96,7 @@ class Sqs extends AbstractQueue
      */
     protected function mergePostOptions(JobInterface $job, array $options = [])
     {
-        if(!isset($options['DelaySeconds']) && ($delay = $job->getOptions()->getDelay())) {
+        if (!isset($options['DelaySeconds']) && ($delay = $job->getOptions()->getDelay())) {
             $options['DelaySeconds'] = $delay;
         }
 
@@ -115,7 +115,7 @@ class Sqs extends AbstractQueue
 
         $settings = array_merge(
             //Merge any options found together
-            $this->mergePostOptions($job,$options),
+            $this->mergePostOptions($job, $options),
             //Base Settings should overwrite any attempt to change the url or message body.
             //Put this array last in the merge
             $baseSettings

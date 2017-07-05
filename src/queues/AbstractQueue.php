@@ -84,6 +84,15 @@ abstract class AbstractQueue extends Component implements QueueInterface
     public $releaseOnFailure = true;
 
     /**
+     * Post new job to the queue.  Override this for queue implementation.
+     *
+     * @param JobInterface $job
+     * @param array $options
+     * @return bool
+     */
+    abstract protected function postJob(JobInterface $job, array $options = []): bool;
+
+    /**
      * @inheritdoc
      */
     public function post(JobInterface $job, array $options = []): bool
@@ -108,14 +117,6 @@ abstract class AbstractQueue extends Component implements QueueInterface
         );
         return true;
     }
-
-    /**
-     * Post new job to the queue.  Override this for queue implementation.
-     *
-     * @param JobInterface $job
-     * @return bool
-     */
-    abstract protected function postJob(JobInterface $job, array $options=[]): bool;
 
     /**
      * @inheritdoc

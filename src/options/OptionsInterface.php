@@ -15,7 +15,6 @@ namespace flipbox\queue\options;
  */
 interface OptionsInterface
 {
-
     /**
      * @return int
      */
@@ -33,5 +32,4 @@ interface OptionsInterface
      * @return array
      */
     public function toConfig(): array;
-
 }
