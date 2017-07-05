@@ -62,6 +62,9 @@ class Multiple extends AbstractQueue implements MultipleQueueInterface
      */
     public function getQueue($index)
     {
+        if($index === null) {
+           return reset($this->queues);
+        }
         return ArrayHelper::getValue($this->queues, $index);
     }
 

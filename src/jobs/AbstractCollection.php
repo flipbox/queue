@@ -18,7 +18,7 @@ abstract class AbstractCollection extends AbstractJob
     /**
      * @return bool
      */
-    public function runInternal()
+    protected function runInternal()
     {
         $success = true;
 
